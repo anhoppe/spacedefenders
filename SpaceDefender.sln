@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceDefender", "SpaceDefender\SpaceDefender.csproj", "{DA4A35A6-F39B-4BD3-8524-47FCA15CA3BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA4A35A6-F39B-4BD3-8524-47FCA15CA3BE}.Debug|x86.ActiveCfg = Debug|x86
+		{DA4A35A6-F39B-4BD3-8524-47FCA15CA3BE}.Debug|x86.Build.0 = Debug|x86
+		{DA4A35A6-F39B-4BD3-8524-47FCA15CA3BE}.Release|x86.ActiveCfg = Release|x86
+		{DA4A35A6-F39B-4BD3-8524-47FCA15CA3BE}.Release|x86.Build.0 = Release|x86
+		{D3BF6797-7302-4729-A334-71C4D77DDB19}.Debug|x86.ActiveCfg = Debug|x86
+		{D3BF6797-7302-4729-A334-71C4D77DDB19}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
