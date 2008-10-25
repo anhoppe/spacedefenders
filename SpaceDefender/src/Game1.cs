@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -10,6 +11,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 using SpaceDefender.src.GameObjects;
+using SpaceDefender.src;
 
 namespace SpaceDefender
 {
@@ -25,6 +27,12 @@ namespace SpaceDefender
       /// The player Object
       /// </summary>
       Player m_player;
+      ArrayList m_playerList;
+
+      /// <summary>
+      /// The enemy container
+      /// </summary>
+      EnemyContainer m_enemy;
 
       /// <summary>
       /// The Background
@@ -48,8 +56,13 @@ namespace SpaceDefender
       /// </summary>
       protected override void Initialize()
       {
-         // TODO: Add your initialization logic here
-
+         //////////////////////////////////////////////////////////////////////////
+         // make content manager public (I'm a newbie)
+         GameObject.M_content = Content;
+         GameObject.M_screenWidth = graphics.GraphicsDevice.Viewport.Width;
+         GameObject.M_screenHeight = graphics.GraphicsDevice.Viewport.Height;
+         GameObject.M_random = new Random();
+         //          graphics.ToggleFullScreen();
          base.Initialize();
       }
 
@@ -74,6 +87,13 @@ namespace SpaceDefender
          // Initialize the player
          m_player = new Player(Content.Load<Texture2D>("Sprites\\Player"),
             new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - m_ground.Height));
+         m_playerList = new ArrayList();
+         m_playerList.Add(m_player);
+
+         //////////////////////////////////////////////////////////////////////////
+         // Initialize the enemies
+         m_enemy = new EnemyContainer();
+         m_enemy.init();
       }
 
       /// <summary>
@@ -101,8 +121,23 @@ namespace SpaceDefender
          }
 
          //////////////////////////////////////////////////////////////////////////
+         // Propagate game time
+         GameObject.M_gameTime = gameTime.TotalGameTime;
+
+         //////////////////////////////////////////////////////////////////////////
          // Update the player
-         m_player.update();
+         m_player.update(m_enemy.m_enemies);
+
+         //////////////////////////////////////////////////////////////////////////
+         // Update all enemies
+         m_enemy.update(m_playerList);
+
+         //////////////////////////////////////////////////////////////////////////
+         // Check if the player died
+         if(m_player.m_killed)
+         {
+            this.Exit();
+         }
 
          base.Update(gameTime);
       }
@@ -118,13 +153,16 @@ namespace SpaceDefender
          //////////////////////////////////////////////////////////////////////////
          // Initialize drawing
          spriteBatch.Begin(SpriteBlendMode.AlphaBlend);
-
+         
          // Draw the background
          spriteBatch.Draw(m_background, m_backgroundRect, Color.White);
          spriteBatch.Draw(m_ground, m_groundRect, Color.White);
 
          // Draw the player
          m_player.draw(spriteBatch);
+
+         // Draw all enemies
+         m_enemy.draw(spriteBatch);
 
          // End drawing
          spriteBatch.End();
